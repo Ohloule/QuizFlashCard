@@ -143,7 +143,7 @@ export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [answerMode, setAnswerMode] = useState<"choosing" | "cash" | "trio">("choosing");
+  const [answerMode, setAnswerMode] = useState<"cash" | "trio">("cash");
   const [cashInput, setCashInput] = useState("");
   const [cashChecking, setCashChecking] = useState(false);
   const [cashGivenAnswer, setCashGivenAnswer] = useState<string | null>(null);
@@ -247,7 +247,7 @@ export default function Home() {
       setCurrentIndex((prev) => prev + 1);
       setSelectedAnswer(null);
       setIsFlipped(false);
-      setAnswerMode("choosing");
+      setAnswerMode("cash");
       setCashInput("");
       setCashChecking(false);
       setCashGivenAnswer(null);
@@ -533,37 +533,6 @@ export default function Home() {
               {currentQuestion.question}
             </h2>
 
-            {answerMode === "choosing" && (
-              <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <button
-                    onClick={() => setAnswerMode("cash")}
-                    className="px-6 py-6 rounded-xl bg-amber-700 hover:bg-amber-600 text-white font-semibold transition-colors text-lg cursor-pointer"
-                  >
-                    Cash
-                    <span className="block text-sm font-normal text-amber-200 mt-1">
-                      Je tape ma reponse
-                    </span>
-                  </button>
-                  <button
-                    onClick={() => setAnswerMode("trio")}
-                    className="px-6 py-6 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-semibold transition-colors text-lg cursor-pointer"
-                  >
-                    Trio
-                    <span className="block text-sm font-normal text-blue-200 mt-1">
-                      3 choix possibles
-                    </span>
-                  </button>
-                </div>
-                <button
-                  onClick={handleSkip}
-                  className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
-                >
-                  Passer cette question
-                </button>
-              </div>
-            )}
-
             {answerMode === "cash" && (
               <div className="flex flex-col gap-4">
                 <form
@@ -590,12 +559,20 @@ export default function Home() {
                     {cashChecking ? "Verification..." : "Valider"}
                   </button>
                 </form>
-                <button
-                  onClick={() => setAnswerMode("choosing")}
-                  className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
-                >
-                  Retour au choix
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => setAnswerMode("trio")}
+                    className="py-2 text-blue-400 hover:text-blue-300 transition-colors text-sm cursor-pointer"
+                  >
+                    Je ne sais pas → Trio
+                  </button>
+                  <button
+                    onClick={handleSkip}
+                    className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
+                  >
+                    Passer
+                  </button>
+                </div>
               </div>
             )}
 
@@ -613,10 +590,10 @@ export default function Home() {
                   ))}
                 </div>
                 <button
-                  onClick={() => setAnswerMode("choosing")}
+                  onClick={() => setAnswerMode("cash")}
                   className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
                 >
-                  Retour au choix
+                  Retour au cash
                 </button>
               </div>
             )}
