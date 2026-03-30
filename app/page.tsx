@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 
 interface Question {
   id: number;
@@ -348,6 +349,12 @@ export default function Home() {
           Question {currentIndex + 1} / {questions.length}
         </span>
         <div className="flex items-center gap-4">
+          <Link
+            href="/stats"
+            className="text-slate-400 hover:text-slate-200 text-sm transition-colors"
+          >
+            Stats
+          </Link>
           <button
             onClick={() => {
               setShowAddForm(true);
