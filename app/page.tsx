@@ -63,14 +63,12 @@ export default function Home() {
   const [score, setScore] = useState({ correct: 0, total: 0, skipped: 0 });
   const [quizFinished, setQuizFinished] = useState(false);
 
-  // Add questions state
   const [showAddForm, setShowAddForm] = useState(false);
   const [newQuestionsText, setNewQuestionsText] = useState("");
   const [addingQuestions, setAddingQuestions] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
   const [addSuccess, setAddSuccess] = useState<string | null>(null);
 
-  // Delete state
   const [deletingQuestion, setDeletingQuestion] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
@@ -81,8 +79,7 @@ export default function Home() {
       const response = await fetch("/api/questions");
       if (!response.ok) throw new Error("Impossible de charger les questions");
       const data: Question[] = await response.json();
-      if (data.length === 0)
-        throw new Error("Aucune question trouvee");
+      if (data.length === 0) throw new Error("Aucune question trouvee");
       setQuestions(
         shuffle(data).map((q) => ({ ...q, propositions: shuffle(q.propositions) }))
       );
@@ -281,8 +278,8 @@ export default function Home() {
     return (
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Quiz FlashCards</h1>
-          <p className="text-slate-400">Chargement des questions...</p>
+          <h1 className="text-4xl font-semibold tracking-tight mb-4 text-neutral-900">Quiz FlashCards</h1>
+          <p className="text-neutral-500">Chargement des questions...</p>
         </div>
       </main>
     );
@@ -293,13 +290,11 @@ export default function Home() {
     return (
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Quiz FlashCards</h1>
-          <p className="text-red-400 mb-6">
-            {error || "Aucune question trouvee"}
-          </p>
+          <h1 className="text-4xl font-semibold tracking-tight mb-4 text-neutral-900">Quiz FlashCards</h1>
+          <p className="text-red-500 mb-6">{error || "Aucune question trouvee"}</p>
           <button
             onClick={fetchQuiz}
-            className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors cursor-pointer"
+            className="px-6 py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors cursor-pointer"
           >
             Reessayer
           </button>
@@ -311,19 +306,18 @@ export default function Home() {
   // Quiz finished screen
   if (quizFinished) {
     const answered = score.total;
-    const percentage =
-      answered > 0 ? Math.round((score.correct / answered) * 100) : 0;
+    const percentage = answered > 0 ? Math.round((score.correct / answered) * 100) : 0;
     return (
       <main className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-lg text-center">
-          <h1 className="text-4xl font-bold mb-4">Quiz Termine !</h1>
-          <div className="bg-slate-800 rounded-2xl p-8 mb-6">
-            <p className="text-6xl font-bold mb-2">{percentage}%</p>
-            <p className="text-slate-400 text-lg">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-4xl font-semibold tracking-tight mb-6 text-neutral-900">Quiz termine</h1>
+          <div className="bg-white rounded-3xl p-10 mb-6 shadow-sm border border-neutral-200">
+            <p className="text-6xl font-bold text-neutral-900 mb-1">{percentage}%</p>
+            <p className="text-neutral-600 text-lg">
               {score.correct} / {answered} bonnes reponses
             </p>
             {score.skipped > 0 && (
-              <p className="text-slate-500 text-sm mt-2">
+              <p className="text-neutral-500 text-sm mt-2">
                 {score.skipped} question{score.skipped > 1 ? "s" : ""} passee
                 {score.skipped > 1 ? "s" : ""}
               </p>
@@ -331,7 +325,7 @@ export default function Home() {
           </div>
           <button
             onClick={handleRestart}
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors cursor-pointer"
+            className="w-full py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors cursor-pointer"
           >
             Recommencer
           </button>
@@ -345,13 +339,13 @@ export default function Home() {
     <main className="flex-1 flex flex-col items-center justify-start py-8 px-4">
       {/* Header */}
       <div className="w-full max-w-2xl flex justify-between items-center mb-6">
-        <span className="text-slate-400">
-          Question {currentIndex + 1} / {questions.length}
+        <span className="text-neutral-500 text-sm">
+          {currentIndex + 1} / {questions.length}
         </span>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           <Link
             href="/stats"
-            className="text-slate-400 hover:text-slate-200 text-sm transition-colors"
+            className="text-neutral-500 hover:text-neutral-600 text-sm transition-colors"
           >
             Stats
           </Link>
@@ -361,29 +355,29 @@ export default function Home() {
               setAddError(null);
               setAddSuccess(null);
             }}
-            className="text-blue-400 hover:text-blue-300 text-sm transition-colors cursor-pointer"
+            className="text-blue-500 hover:text-blue-600 text-sm font-medium transition-colors cursor-pointer"
           >
-            + Ajouter
+            Ajouter
           </button>
-          <span className="text-slate-400">
-            Score : {score.correct} / {score.total}
+          <span className="text-neutral-500 text-sm">
+            {score.correct}/{score.total}
           </span>
         </div>
       </div>
 
       {/* Success message */}
       {addSuccess && (
-        <div className="w-full max-w-2xl mb-4 px-4 py-2 rounded-xl bg-green-900/50 border border-green-600 text-green-300 text-sm text-center">
+        <div className="w-full max-w-2xl mb-4 px-4 py-2 rounded-2xl bg-green-50 border border-green-200 text-green-700 text-sm text-center">
           {addSuccess}
         </div>
       )}
 
       {/* Add questions modal */}
       {showAddForm && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-slate-800 rounded-2xl p-6 w-full max-w-lg">
-            <h3 className="text-xl font-bold mb-4">Ajouter des questions</h3>
-            <p className="text-slate-400 text-sm mb-3">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-6 w-full max-w-lg shadow-xl border border-neutral-200">
+            <h3 className="text-xl font-semibold mb-4 text-neutral-900">Ajouter des questions</h3>
+            <p className="text-neutral-500 text-sm mb-3">
               Format : Question :: Prop1$$Prop2$$Prop3 :: Reponse :: Explication
             </p>
             <textarea
@@ -392,23 +386,19 @@ export default function Home() {
                 setNewQuestionsText(e.target.value);
                 setAddError(null);
               }}
-              placeholder={
-                "Quelle est la capitale de la France ? :: Paris$$Lyon$$Marseille :: Paris :: Paris est la capitale depuis..."
-              }
+              placeholder="Quelle est la capitale de la France ? :: Paris$$Lyon$$Marseille :: Paris :: Paris est la capitale depuis..."
               rows={6}
-              className="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+              className="w-full px-4 py-3 rounded-2xl bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 resize-y transition-shadow"
             />
             {newQuestionsText.trim() && (
-              <p className="text-slate-400 text-sm mt-2">
+              <p className="text-neutral-500 text-sm mt-2">
                 {previewCount} question(s) detectee(s)
                 {previewCount === 0 && newQuestionsText.trim() && (
-                  <span className="text-orange-400"> - format invalide</span>
+                  <span className="text-orange-500"> - format invalide</span>
                 )}
               </p>
             )}
-            {addError && (
-              <p className="text-red-400 text-sm mt-2">{addError}</p>
-            )}
+            {addError && <p className="text-red-500 text-sm mt-2">{addError}</p>}
             <div className="flex gap-3 mt-4">
               <button
                 onClick={() => {
@@ -416,14 +406,14 @@ export default function Home() {
                   setNewQuestionsText("");
                   setAddError(null);
                 }}
-                className="flex-1 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors cursor-pointer"
+                className="flex-1 py-2.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium transition-colors cursor-pointer"
               >
                 Annuler
               </button>
               <button
                 onClick={handleAddQuestions}
                 disabled={addingQuestions || previewCount === 0}
-                className="flex-1 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors disabled:opacity-50 cursor-pointer"
+                className="flex-1 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-colors disabled:opacity-40 cursor-pointer"
               >
                 {addingQuestions ? "Envoi..." : "Ajouter"}
               </button>
@@ -436,8 +426,8 @@ export default function Home() {
       <div className="w-full max-w-2xl">
         {!isFlipped ? (
           /* Front */
-          <div className="bg-slate-800 rounded-2xl p-8 flex flex-col">
-            <h2 className="text-2xl font-bold mb-8 text-center">
+          <div className="bg-white rounded-3xl p-8 flex flex-col shadow-sm border border-neutral-200">
+            <h2 className="text-2xl font-semibold mb-8 text-center text-neutral-900 leading-snug">
               {currentQuestion.question}
             </h2>
 
@@ -448,7 +438,7 @@ export default function Home() {
                     e.preventDefault();
                     handleCashSubmit();
                   }}
-                  className="flex flex-col gap-4"
+                  className="flex flex-col gap-3"
                 >
                   <input
                     type="text"
@@ -457,26 +447,26 @@ export default function Home() {
                     placeholder="Ta reponse..."
                     autoFocus
                     disabled={cashChecking}
-                    className="w-full px-6 py-4 rounded-xl bg-slate-700 border border-slate-600 text-white text-lg placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
+                    className="w-full px-5 py-4 rounded-2xl bg-neutral-50 border border-neutral-200 text-neutral-900 text-lg placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 disabled:opacity-50 transition-shadow"
                   />
                   <button
                     type="submit"
                     disabled={!cashInput.trim() || cashChecking}
-                    className="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold transition-colors text-lg cursor-pointer disabled:opacity-50"
+                    className="px-6 py-3.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors text-lg cursor-pointer disabled:opacity-30"
                   >
                     {cashChecking ? "Verification..." : "Valider"}
                   </button>
                 </form>
-                <div className="flex justify-between">
+                <div className="flex justify-between pt-1">
                   <button
                     onClick={() => setAnswerMode("trio")}
-                    className="py-2 text-blue-400 hover:text-blue-300 transition-colors text-sm cursor-pointer"
+                    className="py-2 text-blue-500 hover:text-blue-600 transition-colors text-sm font-medium cursor-pointer"
                   >
-                    Je ne sais pas → Trio
+                    Trio
                   </button>
                   <button
                     onClick={handleSkip}
-                    className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
+                    className="py-2 text-neutral-500 hover:text-neutral-600 transition-colors text-sm cursor-pointer"
                   >
                     Passer
                   </button>
@@ -486,12 +476,12 @@ export default function Home() {
 
             {answerMode === "trio" && (
               <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-3">
                   {currentQuestion.propositions.map((prop, i) => (
                     <button
                       key={i}
                       onClick={() => handleSelectAnswer(prop)}
-                      className="px-6 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors text-lg cursor-pointer"
+                      className="px-5 py-4 rounded-2xl bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 hover:border-neutral-300 text-neutral-800 font-medium transition-all text-base cursor-pointer text-left"
                     >
                       {prop}
                     </button>
@@ -499,9 +489,9 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setAnswerMode("cash")}
-                  className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
+                  className="py-2 text-neutral-500 hover:text-neutral-600 transition-colors text-sm cursor-pointer"
                 >
-                  Retour au cash
+                  Retour
                 </button>
               </div>
             )}
@@ -509,53 +499,55 @@ export default function Home() {
         ) : (
           /* Back */
           <div
-            className={`rounded-2xl p-8 flex flex-col ${
+            className={`rounded-3xl p-8 flex flex-col shadow-sm border ${
               isCorrect
-                ? "bg-green-900/80 border-2 border-green-500"
-                : "bg-orange-900/80 border-2 border-orange-500"
+                ? "bg-emerald-50 border-emerald-200"
+                : "bg-red-50 border-red-200"
             }`}
           >
-            <div className="text-5xl mb-4 text-center">
-              {isCorrect ? "Correct !" : "Incorrect"}
-            </div>
+            <p
+              className={`text-2xl font-semibold mb-4 text-center ${
+                isCorrect ? "text-emerald-600" : "text-red-500"
+              }`}
+            >
+              {isCorrect ? "Correct" : "Incorrect"}
+            </p>
             {!isCorrect && cashGivenAnswer && (
-              <p className="text-lg mb-2 text-center text-red-300">
-                Ta reponse : <span className="font-bold">{cashGivenAnswer}</span>
+              <p className="text-base mb-2 text-center text-red-400">
+                Ta reponse : <span className="font-semibold">{cashGivenAnswer}</span>
               </p>
             )}
             {!isCorrect && (
-              <p className="text-xl mb-4 text-center">
-                La bonne reponse :{" "}
-                <span className="font-bold text-green-400">
+              <p className="text-lg mb-4 text-center text-neutral-700">
+                Reponse :{" "}
+                <span className="font-semibold text-emerald-600">
                   {currentQuestion.answer}
                 </span>
               </p>
             )}
-            <div className="bg-black/20 rounded-xl p-6 mb-6">
-              <p className="text-slate-200 text-base leading-relaxed text-justify wrap-break-word hyphens-auto">
+            <div className="bg-white/80 rounded-2xl p-5 mb-6">
+              <p className="text-neutral-700 text-base leading-relaxed text-justify wrap-break-word hyphens-auto">
                 {currentQuestion.explanation}
               </p>
             </div>
             <div className="flex flex-col items-center gap-3">
               <button
                 onClick={handleNext}
-                className="px-8 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-semibold transition-colors cursor-pointer"
+                className="px-8 py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors cursor-pointer"
               >
                 {currentIndex < questions.length - 1
-                  ? "Question suivante"
-                  : "Voir les resultats"}
+                  ? "Suivante"
+                  : "Resultats"}
               </button>
               <button
                 onClick={handleDeleteQuestion}
                 disabled={deletingQuestion}
-                className="text-red-400/70 hover:text-red-400 text-sm transition-colors cursor-pointer disabled:opacity-50"
+                className="text-neutral-400 hover:text-red-500 text-sm transition-colors cursor-pointer disabled:opacity-50"
               >
-                {deletingQuestion
-                  ? "Suppression..."
-                  : "Supprimer cette question"}
+                {deletingQuestion ? "Suppression..." : "Supprimer"}
               </button>
               {deleteError && (
-                <p className="text-red-400 text-xs">{deleteError}</p>
+                <p className="text-red-500 text-xs">{deleteError}</p>
               )}
             </div>
           </div>
