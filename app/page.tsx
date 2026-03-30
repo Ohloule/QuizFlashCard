@@ -20,6 +20,16 @@ interface GitHubFileInfo {
   path: string;
 }
 
+function normalizeAnswer(str: string): string {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function shuffle<T>(array: T[]): T[] {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -133,6 +143,10 @@ export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [answerMode, setAnswerMode] = useState<"choosing" | "cash" | "trio">("choosing");
+  const [cashInput, setCashInput] = useState("");
+  const [cashChecking, setCashChecking] = useState(false);
+  const [cashGivenAnswer, setCashGivenAnswer] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [score, setScore] = useState({ correct: 0, total: 0, skipped: 0 });
@@ -177,14 +191,12 @@ export default function Home() {
     fetchQuiz();
   }, [fetchQuiz]);
 
-  const handleSelectAnswer = (proposition: string) => {
-    if (selectedAnswer) return;
-    setSelectedAnswer(proposition);
+  const submitAnswer = (answer: string) => {
+    setSelectedAnswer(answer);
     setIsFlipped(true);
     setDeleteError(null);
     const isCorrect =
-      proposition.trim().toLowerCase() ===
-      questions[currentIndex].answer.trim().toLowerCase();
+      normalizeAnswer(answer) === normalizeAnswer(questions[currentIndex].answer);
     setScore((prev) => ({
       ...prev,
       correct: prev.correct + (isCorrect ? 1 : 0),
@@ -192,11 +204,53 @@ export default function Home() {
     }));
   };
 
+  const handleSelectAnswer = (proposition: string) => {
+    if (selectedAnswer) return;
+    submitAnswer(proposition);
+  };
+
+  const handleCashSubmit = async () => {
+    if (!cashInput.trim()) return;
+    const userAnswer = cashInput.trim();
+    const q = questions[currentIndex];
+    setCashChecking(true);
+    setCashGivenAnswer(userAnswer);
+    try {
+      const res = await fetch("/api/check-answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userAnswer,
+          expectedAnswer: q.answer,
+          question: q.question,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setSelectedAnswer(data.isCorrect ? q.answer : userAnswer);
+      setIsFlipped(true);
+      setDeleteError(null);
+      setScore((prev) => ({
+        ...prev,
+        correct: prev.correct + (data.isCorrect ? 1 : 0),
+        total: prev.total + 1,
+      }));
+    } catch {
+      submitAnswer(userAnswer);
+    } finally {
+      setCashChecking(false);
+    }
+  };
+
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((prev) => prev + 1);
       setSelectedAnswer(null);
       setIsFlipped(false);
+      setAnswerMode("choosing");
+      setCashInput("");
+      setCashChecking(false);
+      setCashGivenAnswer(null);
       setDeleteError(null);
     } else {
       setQuizFinished(true);
@@ -208,6 +262,8 @@ export default function Home() {
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setIsFlipped(false);
+    setAnswerMode("choosing");
+    setCashInput("");
     setScore({ correct: 0, total: 0, skipped: 0 });
     setQuizFinished(false);
   };
@@ -309,8 +365,7 @@ export default function Home() {
 
   const currentQuestion = questions[currentIndex];
   const isCorrect = selectedAnswer
-    ? selectedAnswer.trim().toLowerCase() ===
-      currentQuestion?.answer.trim().toLowerCase()
+    ? normalizeAnswer(selectedAnswer) === normalizeAnswer(currentQuestion?.answer ?? "")
     : null;
 
   const previewCount = newQuestionsText.trim()
@@ -383,7 +438,7 @@ export default function Home() {
 
   // Quiz card screen
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-4">
+    <main className="flex-1 flex flex-col items-center justify-start py-8 px-4">
       {/* Header */}
       <div className="w-full max-w-2xl flex justify-between items-center mb-6">
         <span className="text-slate-400">
@@ -470,56 +525,132 @@ export default function Home() {
       )}
 
       {/* Card */}
-      <div className="card-flip w-full max-w-2xl">
-        <div
-          className={`card-inner relative w-full ${isFlipped ? "flipped" : ""}`}
-        >
-          {/* Front */}
-          <div className="card-front relative bg-slate-800 rounded-2xl p-8 flex flex-col">
+      <div className="w-full max-w-2xl">
+        {!isFlipped ? (
+          /* Front */
+          <div className="bg-slate-800 rounded-2xl p-8 flex flex-col">
             <h2 className="text-2xl font-bold mb-8 text-center">
               {currentQuestion.question}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-              {currentQuestion.propositions.map((prop, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleSelectAnswer(prop)}
-                  className="px-6 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors text-lg cursor-pointer"
-                >
-                  {prop}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={handleSkip}
-              className="mt-4 py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
-            >
-              Passer cette question
-            </button>
-          </div>
 
-          {/* Back */}
+            {answerMode === "choosing" && (
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <button
+                    onClick={() => setAnswerMode("cash")}
+                    className="px-6 py-6 rounded-xl bg-amber-700 hover:bg-amber-600 text-white font-semibold transition-colors text-lg cursor-pointer"
+                  >
+                    Cash
+                    <span className="block text-sm font-normal text-amber-200 mt-1">
+                      Je tape ma reponse
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => setAnswerMode("trio")}
+                    className="px-6 py-6 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-semibold transition-colors text-lg cursor-pointer"
+                  >
+                    Trio
+                    <span className="block text-sm font-normal text-blue-200 mt-1">
+                      3 choix possibles
+                    </span>
+                  </button>
+                </div>
+                <button
+                  onClick={handleSkip}
+                  className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
+                >
+                  Passer cette question
+                </button>
+              </div>
+            )}
+
+            {answerMode === "cash" && (
+              <div className="flex flex-col gap-4">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleCashSubmit();
+                  }}
+                  className="flex flex-col gap-4"
+                >
+                  <input
+                    type="text"
+                    value={cashInput}
+                    onChange={(e) => setCashInput(e.target.value)}
+                    placeholder="Ta reponse..."
+                    autoFocus
+                    disabled={cashChecking}
+                    className="w-full px-6 py-4 rounded-xl bg-slate-700 border border-slate-600 text-white text-lg placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!cashInput.trim() || cashChecking}
+                    className="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold transition-colors text-lg cursor-pointer disabled:opacity-50"
+                  >
+                    {cashChecking ? "Verification..." : "Valider"}
+                  </button>
+                </form>
+                <button
+                  onClick={() => setAnswerMode("choosing")}
+                  className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
+                >
+                  Retour au choix
+                </button>
+              </div>
+            )}
+
+            {answerMode === "trio" && (
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {currentQuestion.propositions.map((prop, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSelectAnswer(prop)}
+                      className="px-6 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors text-lg cursor-pointer"
+                    >
+                      {prop}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setAnswerMode("choosing")}
+                  className="py-2 text-slate-400 hover:text-slate-200 transition-colors text-sm cursor-pointer"
+                >
+                  Retour au choix
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Back */
           <div
-            className={`card-back absolute inset-0 rounded-2xl p-8 flex flex-col items-center justify-center min-h-full ${
+            className={`rounded-2xl p-8 flex flex-col ${
               isCorrect
                 ? "bg-green-900/80 border-2 border-green-500"
                 : "bg-orange-900/80 border-2 border-orange-500"
             }`}
           >
-            <div className="text-5xl mb-4">
+            <div className="text-5xl mb-4 text-center">
               {isCorrect ? "Correct !" : "Incorrect"}
             </div>
+            {!isCorrect && cashGivenAnswer && (
+              <p className="text-lg mb-2 text-center text-red-300">
+                Ta reponse : <span className="font-bold">{cashGivenAnswer}</span>
+              </p>
+            )}
             {!isCorrect && (
-              <p className="text-xl mb-4">
+              <p className="text-xl mb-4 text-center">
                 La bonne reponse :{" "}
                 <span className="font-bold text-green-400">
                   {currentQuestion.answer}
                 </span>
               </p>
             )}
-            <p className="text-slate-300 text-center text-lg mb-6 max-w-md">
-              {currentQuestion.explanation}
-            </p>
+            <div className="bg-black/20 rounded-xl p-6 mb-6">
+              <p className="text-slate-200 text-base leading-relaxed text-justify wrap-break-word hyphens-auto">
+                {currentQuestion.explanation}
+              </p>
+            </div>
             <div className="flex flex-col items-center gap-3">
               <button
                 onClick={handleNext}
@@ -545,7 +676,7 @@ export default function Home() {
               )}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </main>
   );
