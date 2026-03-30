@@ -2,22 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const QUIZ_URL = process.env.NEXT_PUBLIC_QUIZ_URL!;
-const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN!;
-
 interface Question {
+  id: number;
   question: string;
   propositions: string[];
   answer: string;
   explanation: string;
-  rawLine: string;
-}
-
-interface GitHubFileInfo {
-  owner: string;
-  repo: string;
-  branch: string;
-  path: string;
 }
 
 function normalizeAnswer(str: string): string {
@@ -39,104 +29,24 @@ function shuffle<T>(array: T[]): T[] {
   return shuffled;
 }
 
-function parseQuizMd(content: string): Question[] {
-  const lines = content.split("\n").filter((line) => line.trim() !== "");
-  const questions: Question[] = [];
-
+function parseInputLines(
+  text: string
+): { question: string; propositions: string; answer: string; explanation: string }[] {
+  const lines = text.split("\n").filter((line) => line.trim() !== "");
+  const parsed = [];
   for (const line of lines) {
     const parts = line.split("::").map((p) => p.trim());
     if (parts.length >= 4) {
-      questions.push({
+      parsed.push({
         question: parts[0],
-        propositions: shuffle(parts[1].split("$$").map((p) => p.trim())),
+        propositions: parts[1],
         answer: parts[2],
         explanation: parts[3],
-        rawLine: line,
       });
     }
   }
-
-  return questions;
+  return parsed;
 }
-
-function convertToRawUrl(url: string): string {
-  if (url.includes("github.com") && url.includes("/blob/")) {
-    return url
-      .replace("github.com", "raw.githubusercontent.com")
-      .replace("/blob/", "/");
-  }
-  return url;
-}
-
-function parseGitHubUrl(url: string): GitHubFileInfo | null {
-  const match = url.match(
-    /github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)/
-  );
-  if (!match) return null;
-  return { owner: match[1], repo: match[2], branch: match[3], path: match[4] };
-}
-
-function encodeBase64(str: string): string {
-  return btoa(unescape(encodeURIComponent(str)));
-}
-
-function decodeBase64(str: string): string {
-  return decodeURIComponent(escape(atob(str)));
-}
-
-async function getFileFromGitHub(
-  info: GitHubFileInfo,
-  token: string
-): Promise<{ content: string; sha: string }> {
-  const res = await fetch(
-    `https://api.github.com/repos/${info.owner}/${info.repo}/contents/${info.path}?ref=${info.branch}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/vnd.github.v3+json",
-      },
-    }
-  );
-  if (res.status === 401) throw new Error("Token invalide ou expire");
-  if (res.status === 404) throw new Error("Fichier ou depot introuvable");
-  if (!res.ok) throw new Error(`Erreur GitHub: ${res.status}`);
-  const data = await res.json();
-  return { content: decodeBase64(data.content), sha: data.sha };
-}
-
-async function updateFileOnGitHub(
-  info: GitHubFileInfo,
-  token: string,
-  content: string,
-  sha: string,
-  message: string
-): Promise<string> {
-  const res = await fetch(
-    `https://api.github.com/repos/${info.owner}/${info.repo}/contents/${info.path}`,
-    {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/vnd.github.v3+json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message,
-        content: encodeBase64(content),
-        sha,
-        branch: info.branch,
-      }),
-    }
-  );
-  if (res.status === 401) throw new Error("Token invalide ou expire");
-  if (res.status === 409)
-    throw new Error("Conflit : le fichier a ete modifie. Rechargez le quiz.");
-  if (!res.ok) throw new Error(`Erreur GitHub: ${res.status}`);
-  const data = await res.json();
-  return data.content.sha;
-}
-
-const gitHubInfo = parseGitHubUrl(QUIZ_URL);
 
 export default function Home() {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -167,14 +77,14 @@ export default function Home() {
     setLoading(true);
     setError(null);
     try {
-      const rawUrl = convertToRawUrl(QUIZ_URL);
-      const response = await fetch(rawUrl);
-      if (!response.ok) throw new Error("Impossible de charger le fichier");
-      const text = await response.text();
-      const parsed = parseQuizMd(text);
-      if (parsed.length === 0)
-        throw new Error("Aucune question trouvee dans le fichier");
-      setQuestions(shuffle(parsed));
+      const response = await fetch("/api/questions");
+      if (!response.ok) throw new Error("Impossible de charger les questions");
+      const data: Question[] = await response.json();
+      if (data.length === 0)
+        throw new Error("Aucune question trouvee");
+      setQuestions(
+        shuffle(data).map((q) => ({ ...q, propositions: shuffle(q.propositions) }))
+      );
       setCurrentIndex(0);
       setSelectedAnswer(null);
       setIsFlipped(false);
@@ -191,12 +101,26 @@ export default function Home() {
     fetchQuiz();
   }, [fetchQuiz]);
 
-  const submitAnswer = (answer: string) => {
+  const trackAnswer = (questionId: number, isCorrect: boolean, isCash: boolean) => {
+    const body: Record<string, boolean> = { answered: true };
+    if (isCorrect) {
+      body.goodAnswer = true;
+      if (isCash) body.cashGoodAnswer = true;
+    }
+    fetch(`/api/questions/${questionId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).catch(() => {});
+  };
+
+  const submitAnswer = (answer: string, isCash: boolean) => {
     setSelectedAnswer(answer);
     setIsFlipped(true);
     setDeleteError(null);
     const isCorrect =
       normalizeAnswer(answer) === normalizeAnswer(questions[currentIndex].answer);
+    trackAnswer(questions[currentIndex].id, isCorrect, isCash);
     setScore((prev) => ({
       ...prev,
       correct: prev.correct + (isCorrect ? 1 : 0),
@@ -206,7 +130,7 @@ export default function Home() {
 
   const handleSelectAnswer = (proposition: string) => {
     if (selectedAnswer) return;
-    submitAnswer(proposition);
+    submitAnswer(proposition, false);
   };
 
   const handleCashSubmit = async () => {
@@ -230,13 +154,14 @@ export default function Home() {
       setSelectedAnswer(data.isCorrect ? q.answer : userAnswer);
       setIsFlipped(true);
       setDeleteError(null);
+      trackAnswer(q.id, data.isCorrect, true);
       setScore((prev) => ({
         ...prev,
         correct: prev.correct + (data.isCorrect ? 1 : 0),
         total: prev.total + 1,
       }));
     } catch {
-      submitAnswer(userAnswer);
+      submitAnswer(userAnswer, true);
     } finally {
       setCashChecking(false);
     }
@@ -258,11 +183,13 @@ export default function Home() {
   };
 
   const handleRestart = () => {
-    setQuestions((prev) => shuffle(prev));
+    setQuestions((prev) =>
+      shuffle(prev).map((q) => ({ ...q, propositions: shuffle(q.propositions) }))
+    );
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setIsFlipped(false);
-    setAnswerMode("choosing");
+    setAnswerMode("cash");
     setCashInput("");
     setScore({ correct: 0, total: 0, skipped: 0 });
     setQuizFinished(false);
@@ -274,12 +201,11 @@ export default function Home() {
   };
 
   const handleAddQuestions = async () => {
-    if (!gitHubInfo) return;
     const newLines = newQuestionsText.trim();
     if (!newLines) return;
 
-    const testParsed = parseQuizMd(newLines);
-    if (testParsed.length === 0) {
+    const parsed = parseInputLines(newLines);
+    if (parsed.length === 0) {
       setAddError(
         "Format invalide. Utilisez : Question :: Prop1$$Prop2 :: Reponse :: Explication"
       );
@@ -290,22 +216,16 @@ export default function Home() {
     setAddError(null);
     setAddSuccess(null);
     try {
-      const { content, sha } = await getFileFromGitHub(
-        gitHubInfo,
-        GITHUB_TOKEN
-      );
-      const updatedContent = content.trimEnd() + "\n" + newLines + "\n";
-      await updateFileOnGitHub(
-        gitHubInfo,
-        GITHUB_TOKEN,
-        updatedContent,
-        sha,
-        "Ajout de questions via Quiz App"
-      );
-      setQuestions((prev) => [...prev, ...shuffle(testParsed)]);
+      const res = await fetch("/api/questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: parsed }),
+      });
+      if (!res.ok) throw new Error("Erreur lors de l'ajout");
+      await fetchQuiz();
       setNewQuestionsText("");
       setShowAddForm(false);
-      setAddSuccess(`${testParsed.length} question(s) ajoutee(s) !`);
+      setAddSuccess(`${parsed.length} question(s) ajoutee(s) !`);
       setTimeout(() => setAddSuccess(null), 3000);
     } catch (e) {
       setAddError(e instanceof Error ? e.message : "Erreur inconnue");
@@ -315,34 +235,17 @@ export default function Home() {
   };
 
   const handleDeleteQuestion = async () => {
-    if (!gitHubInfo) return;
-    if (!window.confirm("Supprimer cette question du fichier Quiz.md ?"))
-      return;
+    if (!window.confirm("Supprimer cette question ?")) return;
 
     setDeletingQuestion(true);
     setDeleteError(null);
     try {
-      const { content, sha } = await getFileFromGitHub(
-        gitHubInfo,
-        GITHUB_TOKEN
-      );
-      const lines = content.split("\n");
-      const rawLine = currentQuestion.rawLine;
-      const lineIndex = lines.findIndex((l) => l.trim() === rawLine.trim());
-      if (lineIndex === -1)
-        throw new Error("Question introuvable dans le fichier");
-      lines.splice(lineIndex, 1);
-      const updatedContent = lines.join("\n");
-      await updateFileOnGitHub(
-        gitHubInfo,
-        GITHUB_TOKEN,
-        updatedContent,
-        sha,
-        "Suppression d'une question via Quiz App"
-      );
+      const res = await fetch(`/api/questions/${currentQuestion.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Erreur lors de la suppression");
 
-      const newQuestions = [...questions];
-      newQuestions.splice(currentIndex, 1);
+      const newQuestions = questions.filter((_, i) => i !== currentIndex);
 
       if (newQuestions.length === 0) {
         setQuestions([]);
@@ -369,7 +272,7 @@ export default function Home() {
     : null;
 
   const previewCount = newQuestionsText.trim()
-    ? parseQuizMd(newQuestionsText.trim()).length
+    ? parseInputLines(newQuestionsText.trim()).length
     : 0;
 
   // Loading screen
@@ -445,18 +348,16 @@ export default function Home() {
           Question {currentIndex + 1} / {questions.length}
         </span>
         <div className="flex items-center gap-4">
-          {gitHubInfo && (
-            <button
-              onClick={() => {
-                setShowAddForm(true);
-                setAddError(null);
-                setAddSuccess(null);
-              }}
-              className="text-blue-400 hover:text-blue-300 text-sm transition-colors cursor-pointer"
-            >
-              + Ajouter
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setShowAddForm(true);
+              setAddError(null);
+              setAddSuccess(null);
+            }}
+            className="text-blue-400 hover:text-blue-300 text-sm transition-colors cursor-pointer"
+          >
+            + Ajouter
+          </button>
           <span className="text-slate-400">
             Score : {score.correct} / {score.total}
           </span>
@@ -637,17 +538,15 @@ export default function Home() {
                   ? "Question suivante"
                   : "Voir les resultats"}
               </button>
-              {gitHubInfo && (
-                <button
-                  onClick={handleDeleteQuestion}
-                  disabled={deletingQuestion}
-                  className="text-red-400/70 hover:text-red-400 text-sm transition-colors cursor-pointer disabled:opacity-50"
-                >
-                  {deletingQuestion
-                    ? "Suppression..."
-                    : "Supprimer cette question"}
-                </button>
-              )}
+              <button
+                onClick={handleDeleteQuestion}
+                disabled={deletingQuestion}
+                className="text-red-400/70 hover:text-red-400 text-sm transition-colors cursor-pointer disabled:opacity-50"
+              >
+                {deletingQuestion
+                  ? "Suppression..."
+                  : "Supprimer cette question"}
+              </button>
               {deleteError && (
                 <p className="text-red-400 text-xs">{deleteError}</p>
               )}

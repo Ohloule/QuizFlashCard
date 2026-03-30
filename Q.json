@@ -1,0 +1,442 @@
+[
+  {
+    "question": "Quel philosophe allemand a formulé le concept d'« Âge Axial » en 1949 ?",
+    "propositions": ["Mircea Eliade", "Karl Jaspers", "Max Weber"],
+    "response": "Karl Jaspers",
+    "explanation": "Dans son ouvrage Origine et sens de l'histoire, Jaspers décrit une révolution spirituelle simultanée entre 800 et 200 av. J.-C. dans plusieurs civilisations sans contact entre elles — Chine, Inde, Perse, Grèce, Proche-Orient.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que signifie le terme grec « hubris » (ὕβρις) ?",
+    "propositions": ["La sagesse divine", "La démesure", "La justice cosmique"],
+    "response": "La démesure",
+    "explanation": "L'hubris désigne le fait de dépasser les limites imposées aux humains, souvent par orgueil. Dans la tragédie grecque, c'est presque toujours la cause première de la chute du héros, qui provoque la némésis — la punition inévitable des dieux.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que signifie l'acronyme VITRIOL présent dans le Cabinet de Réflexion ?",
+    "propositions": [
+      "Visite Intérieure Totale Réalisée par l'Initié en Offrande Lumineuse",
+      "Visita Interiora Terrae Rectificando Invenies Occultum Lapidem",
+      "Vérité Illuminée Transmise par la Raison et l'Intelligence des Origines Lointaines"
+    ],
+    "response": "Visita Interiora Terrae Rectificando Invenies Occultum Lapidem",
+    "explanation": "Cette formule alchimique signifie « Visite l'intérieur de la terre et, en rectifiant, tu trouveras la pierre cachée ». Elle décrit le programme de la descente en soi avant toute élévation spirituelle.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quel physicien du XVIIIe siècle a découvert que le sable soumis à des vibrations sonores s'organise en géométries symétriques ?",
+    "propositions": ["Isaac Newton", "Ernst Chladni", "Michael Faraday"],
+    "response": "Ernst Chladni",
+    "explanation": "En faisant vibrer une plaque métallique recouverte de sable avec un archet, Chladni (1756–1827) a montré que chaque fréquence produit un motif unique. L'ordre émerge du mouvement — illustration concrète du principe Ordo ab Chao.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Dans la cosmogonie kabbalistique, comment Dieu crée-t-il le monde selon le concept de Tsimtsoum ?",
+    "propositions": [
+      "En projetant sa lumière vers l'extérieur",
+      "En se retirant pour laisser un espace vide",
+      "En divisant le chaos primordial"
+    ],
+    "response": "En se retirant pour laisser un espace vide",
+    "explanation": "Le Tsimtsoum (contraction) est l'idée révolutionnaire du Rabbi Isaac Louria : Ein Sof (l'Infini) se contracte et se voile à lui-même, créant un espace vide où la création devient possible. Dieu crée non pas en ajoutant, mais en se limitant.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que signifie étymologiquement le mot « profane » (pro fanum) ?",
+    "propositions": ["Contre le sacré", "Devant le temple", "Sans dieu"],
+    "response": "Devant le temple",
+    "explanation": "Du latin pro fanum, « devant le temple » — le profane désigne ce qui est en dehors de l'espace sacré, ce qui appartient à la vie courante. Cette distinction sacré/profane est l'une des structures fondamentales du phénomène religieux selon Durkheim et Eliade.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que désigne le « Logos » dans le Prologue de l'Évangile de Jean ?",
+    "propositions": [
+      "La loi morale",
+      "La parole, raison et principe ordonnateur préexistant à la création",
+      "Le souffle vital"
+    ],
+    "response": "La parole, raison et principe ordonnateur préexistant à la création",
+    "explanation": "« En arkhê èn ho lógos » — Au commencement était la Parole. Le Logos johannique n'est pas un simple mot mais le principe ordonnateur préexistant à la création, une structure permanente et non un début chronologique.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que signifie l'expression latine « Sol sistere » dont dérive le mot « solstice » ?",
+    "propositions": [
+      "Lorsque le soleil brûle",
+      "Lorsque le soleil s'arrête",
+      "Lorsque le soleil renaît"
+    ],
+    "response": "Lorsque le soleil s'arrête",
+    "explanation": "Le solstice est le point de l'année où le soleil semble s'immobiliser avant d'inverser sa course. Ce moment enseigne que la persévérance d'une direction constante transforme plus que les ruptures spectaculaires.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelles sont les trois phases de l'œuvre alchimique dans l'ordre ?",
+    "propositions": [
+      "Rubedo, Albedo, Nigredo",
+      "Nigredo, Albedo, Rubedo",
+      "Albedo, Nigredo, Rubedo"
+    ],
+    "response": "Nigredo, Albedo, Rubedo",
+    "explanation": "Nigredo (noircissement, calcination), Albedo (blanchiment, purification), Rubedo (rougissement, obtention de la pierre philosophale). Ces phases chimiquement réelles ont été investies d'une signification spirituelle : descente dans l'ombre, purification, puis accomplissement.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle est la devise philosophique exprimée par « Ordo ab Chao » ?",
+    "propositions": [
+      "Le Chaos détruit l'Ordre",
+      "L'Ordre naît du Chaos",
+      "L'Ordre précède le Chaos"
+    ],
+    "response": "L'Ordre naît du Chaos",
+    "explanation": "Ce principe inverse la pensée commune qui suppose que l'ordre est naturel et le chaos une dégradation. Ici, le chaos est le point de départ inévitable — de l'initiation, de la pensée, de la création. Ce qui importe, c'est la capacité à y introduire progressivement une structure.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Dans l'animisme, qu'est-ce qui distingue les espèces entre elles — si tous les êtres partagent la même âme ?",
+    "propositions": [
+      "Leur intelligence",
+      "Leur corps (forme physique, mode de vie, langage)",
+      "Leur ancienneté dans la création"
+    ],
+    "response": "Leur corps (forme physique, mode de vie, langage)",
+    "explanation": "C'est l'inversion radicale de l'animisme par rapport à toutes les traditions ultérieures : l'essence de chaque espèce réside dans sa corporéité, pas dans son esprit. Tous les êtres partagent la même intériorité invisible. L'humain n'est pas ontologiquement supérieur — il est simplement préféré pour la richesse de son mode de vie et de son langage (Descola, Stépanoff).",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Selon Lenoir, quel site archéologique suggère que le besoin de sacré a pu précéder l'agriculture ?",
+    "propositions": ["Çatal Höyük", "Göbekli Tepe", "Lascaux"],
+    "response": "Göbekli Tepe",
+    "explanation": "Ce temple monumental en Turquie, daté d'environ 9600 av. J.-C., a été construit par des chasseurs-cueilleurs avant la sédentarisation complète. Il renverse l'idée reçue selon laquelle la religion serait un produit de la civilisation agricole — ici, c'est le sacré qui semble avoir motivé le rassemblement humain.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle distinction fondamentale Lenoir reprend-il de Frazer pour différencier la magie de la religion ?",
+    "propositions": [
+      "La magie est collective, la religion est individuelle",
+      "La religion soumet l'homme à une puissance supérieure, la magie prétend la contrôler",
+      "La magie est plus ancienne que la religion"
+    ],
+    "response": "La religion soumet l'homme à une puissance supérieure, la magie prétend la contrôler",
+    "explanation": "La magie repose sur la technique — on manipule des forces par analogie, sans intermédiaire. C'est précisément ce court-circuit de la médiation du clergé qui a provoqué les persécutions. Les sorcières ne croyaient pas en un autre Dieu : elles soignaient sans avoir besoin du prêtre. L'enjeu était un monopole sur l'accès à l'invisible.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quel concept Rudolf Otto introduit-il pour décrire l'expérience fondamentale du sacré ?",
+    "propositions": ["Le karma", "Le numineux", "La catharsis"],
+    "response": "Le numineux",
+    "explanation": "Dans Le Sacré (1917), Otto montre que la religion repose avant tout sur une expérience intime : un mélange d'émerveillement (mysterium fascinans) et de terreur (mysterium tremendum) face au mystère du monde. C'est cette expérience qui fonde toutes les religions, avant d'être domestiquée par les rites et les dogmes.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Qu'enseigne le Bouddha à travers les Quatre Nobles Vérités ?",
+    "propositions": [
+      "La vie est souffrance, sa cause est le désir, la cessation est possible, l'Octuple Sentier y mène",
+      "Dieu est amour, le péché est ignorance, la prière sauve, la charité libère",
+      "L'âme est immortelle, le corps est illusion, la méditation suffit, le maître guide"
+    ],
+    "response": "La vie est souffrance, sa cause est le désir, la cessation est possible, l'Octuple Sentier y mène",
+    "explanation": "Le Bouddha (v. -560) découvre la « voie du milieu » entre ascétisme extrême et hédonisme. Le bouddhisme rejette l'idée d'une âme permanente et nie la nécessité d'un Dieu créateur. Le nirvana n'est pas un paradis mais l'extinction de la souffrance — accessible à tous par la pratique.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Selon Lenoir, pourquoi la Déesse Mère a-t-elle été progressivement remplacée par des dieux masculins ?",
+    "propositions": [
+      "Par supériorité théologique du monothéisme",
+      "Par la découverte du rôle masculin dans la reproduction et l'émergence du patriarcat",
+      "Par l'invasion de peuples nomades monothéistes"
+    ],
+    "response": "Par la découverte du rôle masculin dans la reproduction et l'émergence du patriarcat",
+    "explanation": "Avant la compréhension du rôle du mâle dans la procréation (révélée par l'observation de l'élevage), la femme était perçue comme seule créatrice de vie. Le sacré de la vie est passé « du sang et de l'os au sang et au sperme ». Le mythe de Marduk tuant la déesse Tiamat en Mésopotamie symbolise ce basculement civilisationnel.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que révèle Carl Gustav Jung sur la psyché humaine à partir de l'interprétation de plus de 80 000 rêves ?",
+    "propositions": [
+      "Les rêves sont des résidus de mémoire sans signification spirituelle",
+      "La psyché humaine est « naturellement religieuse » et produit des symboles religieux même chez des athées",
+      "Seuls les croyants produisent des archétypes religieux"
+    ],
+    "response": "La psyché humaine est « naturellement religieuse » et produit des symboles religieux même chez des athées",
+    "explanation": "Jung constate que des patients athées, sans éducation religieuse, produisent des rêves saturés de symboles religieux. Il en conclut que l'inconscient collectif contient des archétypes religieux structurels. Sa formule « Je ne crois pas, je sais » signifie qu'on peut faire l'expérience du divin à travers ces archétypes — sans adhérer à un dogme.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quel philosophe réduit la religion à une « projection » des qualités humaines sur un être extérieur dans L'Essence du christianisme (1841) ?",
+    "propositions": ["Karl Marx", "Ludwig Feuerbach", "Friedrich Nietzsche"],
+    "response": "Ludwig Feuerbach",
+    "explanation": "Feuerbach montre que l'être humain se dépouille de ses plus hautes qualités (amour, sagesse, justice) pour les objectiver dans un Dieu extérieur — c'est le mécanisme de l'aliénation anthropologique. Marx élargira la critique au terrain socio-économique (« opium du peuple »), Nietzsche au nihilisme, et Freud à la névrose collective.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Selon Lenoir, quelle est la thèse centrale qui traverse tout L'Odyssée du Sacré ?",
+    "propositions": [
+      "Les religions sont des illusions vouées à disparaître avec le progrès scientifique",
+      "Le sacré est une constante anthropologique qui se métamorphose en corrélation directe avec les modes de vie",
+      "Le monothéisme est l'aboutissement naturel de l'évolution spirituelle humaine"
+    ],
+    "response": "Le sacré est une constante anthropologique qui se métamorphose en corrélation directe avec les modes de vie",
+    "explanation": "Animisme nomade, polythéisme sédentaire, religions du salut axiales, modernité fragmentée — chaque fois que le mode de vie change, la forme du sacré change avec lui. La quête de relier le visible à l'invisible est constitutive de l'humanité. Ce ne sont pas les formes qui sont universelles, ce sont les mutations de ces formes.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle hypothèse Lewis-Williams et Clottes proposent-ils pour expliquer l'art pariétal de Lascaux et Chauvet ?",
+    "propositions": [
+      "La magie de la chasse — attirer le gibier par l'image",
+      "L'hypothèse chamanique — les grottes comme lieux de transe pour entrer en contact avec les esprits animaux",
+      "L'art pour l'art — une simple expression esthétique"
+    ],
+    "response": "L'hypothèse chamanique — les grottes comme lieux de transe pour entrer en contact avec les esprits animaux",
+    "explanation": "Les grottes profondes et inaccessibles n'étaient pas des galeries décoratives mais des espaces sacrés favorisant les états modifiés de conscience. Le chamane de Lascaux — cet homme à tête d'oiseau allongé face au bison blessé — serait en état de transe chamanique, en voyage dans l'invisible. Cette hypothèse a remplacé l'ancienne théorie de la « magie de la chasse ».",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Dans quel ouvrage Karl Jaspers décrit-il une révolution spirituelle simultanée dans plusieurs civilisations entre 800 et 200 av. J.-C. ?",
+    "propositions": [
+      "L'Être et le Temps",
+      "Origine et sens de l'histoire",
+      "La Raison dans l'histoire"
+    ],
+    "response": "Origine et sens de l'histoire",
+    "explanation": "Dans son ouvrage Origine et sens de l'histoire, Jaspers décrit une révolution spirituelle simultanée entre 800 et 200 av. J.-C. dans plusieurs civilisations sans contact entre elles — Chine, Inde, Perse, Grèce, Proche-Orient.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Dans la tragédie grecque, quel mécanisme provoque inévitablement la chute du héros qui dépasse les limites humaines ?",
+    "propositions": [
+      "Le logos suivi de la némésis",
+      "L'hubris suivi de la némésis",
+      "L'até suivi du chaos"
+    ],
+    "response": "L'hubris suivi de la némésis",
+    "explanation": "L'hubris désigne le fait de dépasser les limites imposées aux humains, souvent par orgueil. Dans la tragédie grecque, c'est presque toujours la cause première de la chute du héros, qui provoque la némésis — la punition inévitable des dieux.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle opération spirituelle la formule VITRIOL prescrit-elle avant toute élévation ?",
+    "propositions": [
+      "La purification du corps par l'ascèse",
+      "La descente en soi-même",
+      "La contemplation des astres"
+    ],
+    "response": "La descente en soi-même",
+    "explanation": "VITRIOL signifie « Visite l'intérieur de la terre et, en rectifiant, tu trouveras la pierre cachée ». Elle décrit le programme de la descente en soi avant toute élévation spirituelle.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que démontre l'expérience de Chladni en faisant vibrer une plaque de sable avec un archet ?",
+    "propositions": [
+      "Que le son se propage en ondes circulaires",
+      "Que l'ordre peut émerger du mouvement chaotique",
+      "Que chaque matière a une fréquence propre"
+    ],
+    "response": "Que l'ordre peut émerger du mouvement chaotique",
+    "explanation": "En faisant vibrer une plaque métallique recouverte de sable avec un archet, Chladni a montré que chaque fréquence produit un motif unique. L'ordre émerge du mouvement — illustration concrète du principe Ordo ab Chao.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Selon Isaac Louria, que fait Ein Sof pour rendre la création possible ?",
+    "propositions": [
+      "Il projette sa lumière vers le monde",
+      "Il se contracte et se retire sur lui-même",
+      "Il divise le chaos en éléments ordonnés"
+    ],
+    "response": "Il se contracte et se retire sur lui-même",
+    "explanation": "Le Tsimtsoum (contraction) est l'idée révolutionnaire du Rabbi Isaac Louria : Ein Sof (l'Infini) se contracte et se voile à lui-même, créant un espace vide où la création devient possible. Dieu crée non pas en ajoutant, mais en se limitant.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle est la position spatiale du profane par rapport au temple dans l'étymologie latine du mot ?",
+    "propositions": [
+      "À l'intérieur du temple",
+      "Devant le temple",
+      "Sous le temple"
+    ],
+    "response": "Devant le temple",
+    "explanation": "Du latin pro fanum, « devant le temple » — le profane désigne ce qui est en dehors de l'espace sacré, ce qui appartient à la vie courante. Cette distinction sacré/profane est l'une des structures fondamentales du phénomène religieux selon Durkheim et Eliade.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Qu'est-ce que le Logos johannique désigne que le Logos ne soit pas ?",
+    "propositions": [
+      "Un simple mot prononcé à la création",
+      "Un ange intermédiaire entre Dieu et les hommes",
+      "Une loi morale gravée dans la pierre"
+    ],
+    "response": "Un simple mot prononcé à la création",
+    "explanation": "Le Logos johannique n'est pas un simple mot mais le principe ordonnateur préexistant à la création, une structure permanente et non un début chronologique. « En arkhê èn ho lógos » signifie que cette réalité était déjà là, immuable.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle leçon spirituelle le solstice illustre-t-il selon son étymologie ?",
+    "propositions": [
+      "La mort et la renaissance cyclique du soleil",
+      "La persévérance constante qui transforme plus que la rupture",
+      "La victoire de la lumière sur les ténèbres"
+    ],
+    "response": "La persévérance constante qui transforme plus que la rupture",
+    "explanation": "Sol sistere signifie « le soleil s'arrête ». Ce moment où le soleil s'immobilise avant d'inverser sa course enseigne que la persévérance d'une direction constante transforme plus que les ruptures spectaculaires.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Dans l'œuvre alchimique, quelle phase correspond à la purification après la dissolution initiale ?",
+    "propositions": ["Le Rubedo", "L'Albedo", "Le Nigredo"],
+    "response": "L'Albedo",
+    "explanation": "Nigredo (noircissement), Albedo (blanchiment, purification), Rubedo (accomplissement). L'Albedo est la phase intermédiaire — après la descente dans l'ombre, avant l'obtention de la pierre philosophale.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Qu'est-ce que la devise « Ordo ab Chao » renverse comme présupposé courant ?",
+    "propositions": [
+      "L'idée que le cosmos est éternel",
+      "L'idée que l'ordre est naturel et le chaos une dégradation",
+      "L'idée que la raison précède l'expérience"
+    ],
+    "response": "L'idée que l'ordre est naturel et le chaos une dégradation",
+    "explanation": "Ce principe inverse la pensée commune : le chaos est ici le point de départ inévitable de toute initiation, pensée ou création. Ce qui importe, c'est la capacité à y introduire progressivement une structure.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Dans quel courant de pensée religieux l'humain n'est-il pas ontologiquement supérieur aux autres espèces, toutes partageant la même intériorité ?",
+    "propositions": ["Le chamanisme sibérien", "L'animisme", "Le totémisme"],
+    "response": "L'animisme",
+    "explanation": "C'est l'inversion radicale de l'animisme : l'essence de chaque espèce réside dans sa corporéité, pas dans son esprit. Tous les êtres partagent la même intériorité invisible. L'humain n'est pas supérieur — il est simplement préféré pour la richesse de son mode de vie et de son langage (Descola, Stépanoff).",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle découverte préhistorique en Turquie remet en cause l'idée que la religion serait née de l'agriculture ?",
+    "propositions": ["Çatal Höyük", "Göbekli Tepe", "Jéricho"],
+    "response": "Göbekli Tepe",
+    "explanation": "Ce temple monumental, daté d'environ 9600 av. J.-C., a été construit par des chasseurs-cueilleurs avant la sédentarisation complète. Il renverse l'idée reçue : c'est le sacré qui semble avoir motivé le rassemblement humain, et non l'inverse.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Pourquoi les sorcières du Moyen Âge étaient-elles perçues comme une menace par le clergé, selon la distinction de Frazer ?",
+    "propositions": [
+      "Elles adoraient un dieu concurrent",
+      "Elles accédaient à l'invisible sans passer par la médiation du prêtre",
+      "Elles pratiquaient des sacrifices humains"
+    ],
+    "response": "Elles accédaient à l'invisible sans passer par la médiation du prêtre",
+    "explanation": "La magie court-circuite la médiation cléricale : on manipule des forces par analogie, sans intermédiaire. Les sorcières soignaient sans avoir besoin du prêtre. L'enjeu était un monopole sur l'accès à l'invisible, non une hérésie théologique.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quels deux registres émotionnels opposés caractérisent l'expérience du numineux selon Rudolf Otto ?",
+    "propositions": [
+      "La joie et la tristesse",
+      "L'émerveillement et la terreur",
+      "La raison et l'intuition"
+    ],
+    "response": "L'émerveillement et la terreur",
+    "explanation": "Dans Le Sacré (1917), Otto montre que le numineux combine le mysterium fascinans (émerveillement) et le mysterium tremendum (terreur) face au mystère du monde. C'est cette expérience qui fonde toutes les religions, avant d'être domestiquée par les rites et les dogmes.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quelle voie le Bouddha enseigne-t-il entre l'ascétisme extrême et l'hédonisme ?",
+    "propositions": [
+      "La voie du renoncement total",
+      "La voie du milieu",
+      "La voie de la dévotion"
+    ],
+    "response": "La voie du milieu",
+    "explanation": "Le Bouddha (v. -560) découvre la voie du milieu. Le nirvana n'est pas un paradis mais l'extinction de la souffrance — accessible à tous par la pratique de l'Octuple Sentier, sans nécessiter ni âme permanente ni Dieu créateur.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Quel mythe mésopotamien symbolise le basculement du sacré féminin vers le sacré masculin ?",
+    "propositions": [
+      "Gilgamesh tuant le taureau céleste",
+      "Marduk tuant la déesse Tiamat",
+      "Enlil séparant le ciel de la terre"
+    ],
+    "response": "Marduk tuant la déesse Tiamat",
+    "explanation": "Avant la compréhension du rôle du mâle dans la procréation, la femme était perçue comme seule créatrice de vie. Le mythe de Marduk tuant Tiamat symbolise le passage du sacré de la vie « du sang et de l'os au sang et au sperme », avec l'émergence du patriarcat.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Que conclut Jung de la présence de symboles religieux dans les rêves de patients athées sans éducation religieuse ?",
+    "propositions": [
+      "Que ces patients refoulaient une foi secrète",
+      "Que l'inconscient collectif contient des archétypes religieux structurels",
+      "Que la religion est un conditionnement culturel inévitable"
+    ],
+    "response": "Que l'inconscient collectif contient des archétypes religieux structurels",
+    "explanation": "Jung constate que des patients athées produisent des rêves saturés de symboles religieux. Il en conclut que la psyché est « naturellement religieuse ». Sa formule « Je ne crois pas, je sais » signifie qu'on peut faire l'expérience du divin à travers ces archétypes — sans adhérer à un dogme.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Selon Feuerbach, que fait l'être humain en créant Dieu ?",
+    "propositions": [
+      "Il projette ses peurs sur une figure paternelle",
+      "Il se dépouille de ses plus hautes qualités pour les placer en un être extérieur",
+      "Il exprime un besoin communautaire de cohésion sociale"
+    ],
+    "response": "Il se dépouille de ses plus hautes qualités pour les placer en un être extérieur",
+    "explanation": "Feuerbach décrit un mécanisme d'aliénation anthropologique : l'humain objective en Dieu ses propres qualités — amour, sagesse, justice. Marx élargira la critique au terrain socio-économique, Nietzsche au nihilisme, Freud à la névrose collective.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Selon Lenoir, quelle variable détermine la forme que prend le sacré dans une civilisation ?",
+    "propositions": [
+      "Le niveau d'alphabétisation de la population",
+      "Le mode de vie dominant",
+      "La puissance militaire de l'État"
+    ],
+    "response": "Le mode de vie dominant",
+    "explanation": "Animisme nomade, polythéisme sédentaire, religions du salut axiales, modernité fragmentée — chaque fois que le mode de vie change, la forme du sacré change avec lui. Ce ne sont pas les formes qui sont universelles, ce sont les mutations de ces formes.",
+    "answered": 0,
+    "goodAnswer": 0
+  },
+  {
+    "question": "Selon Lewis-Williams et Clottes, quel était le rôle fonctionnel des grottes profondes comme Lascaux ou Chauvet ?",
+    "propositions": [
+      "Des refuges communautaires décorés pour renforcer la cohésion sociale",
+      "Des espaces sacrés favorisant les états de transe chamanique",
+      "Des livres d'images pour transmettre les techniques de chasse"
+    ],
+    "response": "Des espaces sacrés favorisant les états de transe chamanique",
+    "explanation": "Les grottes profondes et inaccessibles n'étaient pas des galeries décoratives mais des lieux de voyage dans l'invisible. Le chamane de Lascaux — homme à tête d'oiseau face au bison blessé — serait en état de transe. Cette hypothèse a remplacé l'ancienne théorie de la magie de la chasse.",
+    "answered": 0,
+    "goodAnswer": 0
+  }
+]
