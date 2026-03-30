@@ -1,30 +1,27 @@
-import Database from "better-sqlite3";
+import pg from "pg";
+import { readFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import "dotenv/config";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const db = new Database(join(__dirname, "..", "dev.db"));
 
-const QUIZ_RAW_URL =
-  "https://raw.githubusercontent.com/Ohloule/FlashCard/main/Quiz.md";
+const client = new pg.Client({ connectionString: process.env.DATABASE_URL });
+await client.connect();
 
-const response = await fetch(QUIZ_RAW_URL);
-if (!response.ok) throw new Error(`Failed to fetch Quiz.md: ${response.status}`);
-const content = await response.text();
-
-const lines = content.split("\n").filter((line) => line.trim() !== "");
-const insert = db.prepare(
-  "INSERT INTO Question (question, propositions, answer, explanation, createdAt) VALUES (?, ?, ?, ?, datetime('now'))"
+const questions = JSON.parse(
+  readFileSync(join(__dirname, "..", "Q.json"), "utf-8")
 );
 
 let count = 0;
-for (const line of lines) {
-  const parts = line.split("::").map((p) => p.trim());
-  if (parts.length >= 4) {
-    insert.run(parts[0], parts[1], parts[2], parts[3]);
-    count++;
-  }
+for (const q of questions) {
+  await client.query(
+    `INSERT INTO "Question" (question, propositions, answer, explanation, answered, "goodAnswer", "cashGoodAnswer", "createdAt")
+     VALUES ($1, $2, $3, $4, 0, 0, 0, NOW())`,
+    [q.question, q.propositions.join("$$"), q.response, q.explanation]
+  );
+  count++;
 }
 
 console.log(`Seeded ${count} questions.`);
-db.close();
+await client.end();
