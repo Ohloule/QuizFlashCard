@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface Question {
@@ -243,7 +244,8 @@ export default function Home() {
       });
       if (!res.ok) throw new Error("Erreur lors de la suppression");
 
-      const newQuestions = questions.filter((_, i) => i !== currentIndex);
+      const newQuestions = [...questions];
+      newQuestions.splice(currentIndex, 1);
 
       if (newQuestions.length === 0) {
         setQuestions([]);
@@ -273,13 +275,20 @@ export default function Home() {
     ? parseInputLines(newQuestionsText.trim()).length
     : 0;
 
+  const logoHeader = (
+    <div className="flex items-center gap-3 mb-4">
+      <Image src="/Logo/potache-192.png" alt="Potache" width={48} height={48} />
+      <h1 className="text-4xl font-bold text-orange-400">Potache</h1>
+    </div>
+  );
+
   // Loading screen
   if (loading) {
     return (
       <main className="flex-1 flex items-center justify-center p-4">
-        <div className="text-center">
-          <h1 className="text-4xl font-semibold tracking-tight mb-4 text-neutral-900">Quiz FlashCards</h1>
-          <p className="text-neutral-500">Chargement des questions...</p>
+        <div className="text-center flex flex-col items-center">
+          {logoHeader}
+          <p className="text-slate-400">Chargement des questions...</p>
         </div>
       </main>
     );
@@ -289,12 +298,12 @@ export default function Home() {
   if (error || questions.length === 0) {
     return (
       <main className="flex-1 flex items-center justify-center p-4">
-        <div className="text-center">
-          <h1 className="text-4xl font-semibold tracking-tight mb-4 text-neutral-900">Quiz FlashCards</h1>
-          <p className="text-red-500 mb-6">{error || "Aucune question trouvee"}</p>
+        <div className="text-center flex flex-col items-center">
+          {logoHeader}
+          <p className="text-red-400 mb-6">{error || "Aucune question trouvee"}</p>
           <button
             onClick={fetchQuiz}
-            className="px-6 py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors cursor-pointer"
+            className="px-6 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-semibold transition-colors cursor-pointer"
           >
             Reessayer
           </button>
@@ -309,15 +318,16 @@ export default function Home() {
     const percentage = answered > 0 ? Math.round((score.correct / answered) * 100) : 0;
     return (
       <main className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-md text-center">
-          <h1 className="text-4xl font-semibold tracking-tight mb-6 text-neutral-900">Quiz termine</h1>
-          <div className="bg-white rounded-3xl p-10 mb-6 shadow-sm border border-neutral-200">
-            <p className="text-6xl font-bold text-neutral-900 mb-1">{percentage}%</p>
-            <p className="text-neutral-600 text-lg">
+        <div className="w-full max-w-md text-center flex flex-col items-center">
+          {logoHeader}
+          <p className="text-2xl font-bold mb-4">Quiz termine</p>
+          <div className="w-full bg-slate-800 rounded-2xl p-10 mb-6">
+            <p className="text-6xl font-bold text-orange-400 mb-1">{percentage}%</p>
+            <p className="text-slate-400 text-lg">
               {score.correct} / {answered} bonnes reponses
             </p>
             {score.skipped > 0 && (
-              <p className="text-neutral-500 text-sm mt-2">
+              <p className="text-slate-500 text-sm mt-2">
                 {score.skipped} question{score.skipped > 1 ? "s" : ""} passee
                 {score.skipped > 1 ? "s" : ""}
               </p>
@@ -325,7 +335,7 @@ export default function Home() {
           </div>
           <button
             onClick={handleRestart}
-            className="w-full py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors cursor-pointer"
+            className="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-semibold transition-colors cursor-pointer"
           >
             Recommencer
           </button>
@@ -338,46 +348,52 @@ export default function Home() {
   return (
     <main className="flex-1 flex flex-col items-center justify-start py-8 px-4">
       {/* Header */}
-      <div className="w-full max-w-2xl flex justify-between items-center mb-6">
-        <span className="text-neutral-500 text-sm">
-          {currentIndex + 1} / {questions.length}
-        </span>
-        <div className="flex items-center gap-5">
-          <Link
-            href="/stats"
-            className="text-neutral-500 hover:text-neutral-600 text-sm transition-colors"
-          >
-            Stats
-          </Link>
-          <button
-            onClick={() => {
-              setShowAddForm(true);
-              setAddError(null);
-              setAddSuccess(null);
-            }}
-            className="text-blue-500 hover:text-blue-600 text-sm font-medium transition-colors cursor-pointer"
-          >
-            Ajouter
-          </button>
-          <span className="text-neutral-500 text-sm">
-            {score.correct}/{score.total}
+      <div className="w-full max-w-2xl flex flex-col gap-4 mb-6">
+        <div className="flex items-center gap-2 justify-center">
+          <Image src="/Logo/potache.svg" alt="Potache" width={64} height={64} />
+          <span className="text-3xl font-bold text-orange-300">Potache</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-slate-100 text-sm">
+            {currentIndex + 1} / {questions.length}
           </span>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/stats"
+              className="text-slate-100 hover:text-slate-300 text-sm transition-colors"
+            >
+              Stats
+            </Link>
+            <button
+              onClick={() => {
+                setShowAddForm(true);
+                setAddError(null);
+                setAddSuccess(null);
+              }}
+              className="text-orange-400 hover:text-orange-300 text-sm font-medium transition-colors cursor-pointer"
+            >
+              Ajouter
+            </button>
+            <span className="text-slate-100 text-sm">
+              {score.correct}/{score.total}
+            </span>
+          </div>
         </div>
       </div>
 
       {/* Success message */}
       {addSuccess && (
-        <div className="w-full max-w-2xl mb-4 px-4 py-2 rounded-2xl bg-green-50 border border-green-200 text-green-700 text-sm text-center">
+        <div className="w-full max-w-2xl mb-4 px-4 py-2 rounded-xl bg-green-900/50 border border-green-600 text-green-300 text-sm text-center">
           {addSuccess}
         </div>
       )}
 
       {/* Add questions modal */}
       {showAddForm && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-lg shadow-xl border border-neutral-200">
-            <h3 className="text-xl font-semibold mb-4 text-neutral-900">Ajouter des questions</h3>
-            <p className="text-neutral-500 text-sm mb-3">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-800 rounded-2xl p-6 w-full max-w-lg border border-slate-700">
+            <h3 className="text-xl font-semibold mb-4">Ajouter des questions</h3>
+            <p className="text-slate-400 text-sm mb-3">
               Format : Question :: Prop1$$Prop2$$Prop3 :: Reponse :: Explication
             </p>
             <textarea
@@ -388,17 +404,17 @@ export default function Home() {
               }}
               placeholder="Quelle est la capitale de la France ? :: Paris$$Lyon$$Marseille :: Paris :: Paris est la capitale depuis..."
               rows={6}
-              className="w-full px-4 py-3 rounded-2xl bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 resize-y transition-shadow"
+              className="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-y transition-shadow"
             />
             {newQuestionsText.trim() && (
-              <p className="text-neutral-500 text-sm mt-2">
+              <p className="text-slate-400 text-sm mt-2">
                 {previewCount} question(s) detectee(s)
                 {previewCount === 0 && newQuestionsText.trim() && (
-                  <span className="text-orange-500"> - format invalide</span>
+                  <span className="text-orange-400"> - format invalide</span>
                 )}
               </p>
             )}
-            {addError && <p className="text-red-500 text-sm mt-2">{addError}</p>}
+            {addError && <p className="text-red-400 text-sm mt-2">{addError}</p>}
             <div className="flex gap-3 mt-4">
               <button
                 onClick={() => {
@@ -406,14 +422,14 @@ export default function Home() {
                   setNewQuestionsText("");
                   setAddError(null);
                 }}
-                className="flex-1 py-2.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium transition-colors cursor-pointer"
+                className="flex-1 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors cursor-pointer"
               >
                 Annuler
               </button>
               <button
                 onClick={handleAddQuestions}
                 disabled={addingQuestions || previewCount === 0}
-                className="flex-1 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-colors disabled:opacity-40 cursor-pointer"
+                className="flex-1 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-semibold transition-colors disabled:opacity-40 cursor-pointer"
               >
                 {addingQuestions ? "Envoi..." : "Ajouter"}
               </button>
@@ -426,8 +442,8 @@ export default function Home() {
       <div className="w-full max-w-2xl">
         {!isFlipped ? (
           /* Front */
-          <div className="bg-white rounded-3xl p-8 flex flex-col shadow-sm border border-neutral-200">
-            <h2 className="text-2xl font-semibold mb-8 text-center text-neutral-900 leading-snug">
+          <div className="bg-slate-800 rounded-2xl p-8 flex flex-col">
+            <h2 className="text-2xl font-semibold mb-8 text-center leading-snug">
               {currentQuestion.question}
             </h2>
 
@@ -440,19 +456,25 @@ export default function Home() {
                   }}
                   className="flex flex-col gap-3"
                 >
-                  <input
-                    type="text"
+                  <textarea
                     value={cashInput}
                     onChange={(e) => setCashInput(e.target.value)}
-                    placeholder="Ta reponse..."
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleCashSubmit();
+                      }
+                    }}
+                    placeholder="Ta reponse... (Shift+Entree pour retour a la ligne)"
                     autoFocus
                     disabled={cashChecking}
-                    className="w-full px-5 py-4 rounded-2xl bg-neutral-50 border border-neutral-200 text-neutral-900 text-lg placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 disabled:opacity-50 transition-shadow"
+                    rows={3}
+                    className="w-full px-5 py-4 rounded-xl bg-slate-700 border border-slate-600 text-white text-lg placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-50 transition-shadow resize-y"
                   />
                   <button
                     type="submit"
                     disabled={!cashInput.trim() || cashChecking}
-                    className="px-6 py-3.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors text-lg cursor-pointer disabled:opacity-30"
+                    className="px-6 py-3.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold transition-colors text-lg cursor-pointer disabled:opacity-30"
                   >
                     {cashChecking ? "Verification..." : "Valider"}
                   </button>
@@ -460,13 +482,13 @@ export default function Home() {
                 <div className="flex justify-between pt-1">
                   <button
                     onClick={() => setAnswerMode("trio")}
-                    className="py-2 text-blue-500 hover:text-blue-600 transition-colors text-sm font-medium cursor-pointer"
+                    className="py-2 text-orange-400 hover:text-orange-300 transition-colors text-sm font-medium cursor-pointer"
                   >
                     Trio
                   </button>
                   <button
                     onClick={handleSkip}
-                    className="py-2 text-neutral-500 hover:text-neutral-600 transition-colors text-sm cursor-pointer"
+                    className="py-2 text-slate-400 hover:text-slate-300 transition-colors text-sm cursor-pointer"
                   >
                     Passer
                   </button>
@@ -481,7 +503,7 @@ export default function Home() {
                     <button
                       key={i}
                       onClick={() => handleSelectAnswer(prop)}
-                      className="px-5 py-4 rounded-2xl bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 hover:border-neutral-300 text-neutral-800 font-medium transition-all text-base cursor-pointer text-left"
+                      className="px-5 py-4 rounded-xl bg-slate-700 border border-slate-600 hover:bg-slate-600 hover:border-slate-500 text-white font-medium transition-all text-base cursor-pointer text-left"
                     >
                       {prop}
                     </button>
@@ -489,7 +511,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setAnswerMode("cash")}
-                  className="py-2 text-neutral-500 hover:text-neutral-600 transition-colors text-sm cursor-pointer"
+                  className="py-2 text-slate-400 hover:text-slate-300 transition-colors text-sm cursor-pointer"
                 >
                   Retour
                 </button>
@@ -499,41 +521,41 @@ export default function Home() {
         ) : (
           /* Back */
           <div
-            className={`rounded-3xl p-8 flex flex-col shadow-sm border ${
+            className={`rounded-2xl p-8 flex flex-col ${
               isCorrect
-                ? "bg-emerald-50 border-emerald-200"
-                : "bg-red-50 border-red-200"
+                ? "bg-green-900/80 border-2 border-green-500"
+                : "bg-orange-900/80 border-2 border-orange-500"
             }`}
           >
             <p
               className={`text-2xl font-semibold mb-4 text-center ${
-                isCorrect ? "text-emerald-600" : "text-red-500"
+                isCorrect ? "text-green-400" : "text-orange-400"
               }`}
             >
               {isCorrect ? "Correct" : "Incorrect"}
             </p>
             {!isCorrect && cashGivenAnswer && (
-              <p className="text-base mb-2 text-center text-red-400">
+              <p className="text-base mb-2 text-center text-red-300">
                 Ta reponse : <span className="font-semibold">{cashGivenAnswer}</span>
               </p>
             )}
             {!isCorrect && (
-              <p className="text-lg mb-4 text-center text-neutral-700">
+              <p className="text-lg mb-4 text-center">
                 Reponse :{" "}
-                <span className="font-semibold text-emerald-600">
+                <span className="font-semibold text-green-400">
                   {currentQuestion.answer}
                 </span>
               </p>
             )}
-            <div className="bg-white/80 rounded-2xl p-5 mb-6">
-              <p className="text-neutral-700 text-base leading-relaxed text-justify wrap-break-word hyphens-auto">
+            <div className="bg-black/20 rounded-xl p-5 mb-6">
+              <p className="text-slate-200 text-base leading-relaxed text-justify wrap-break-word hyphens-auto">
                 {currentQuestion.explanation}
               </p>
             </div>
             <div className="flex flex-col items-center gap-3">
               <button
                 onClick={handleNext}
-                className="px-8 py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-colors cursor-pointer"
+                className="px-8 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-semibold transition-colors cursor-pointer"
               >
                 {currentIndex < questions.length - 1
                   ? "Suivante"
@@ -542,12 +564,12 @@ export default function Home() {
               <button
                 onClick={handleDeleteQuestion}
                 disabled={deletingQuestion}
-                className="text-neutral-400 hover:text-red-500 text-sm transition-colors cursor-pointer disabled:opacity-50"
+                className="text-red-400/70 hover:text-red-400 text-sm transition-colors cursor-pointer disabled:opacity-50"
               >
                 {deletingQuestion ? "Suppression..." : "Supprimer"}
               </button>
               {deleteError && (
-                <p className="text-red-500 text-xs">{deleteError}</p>
+                <p className="text-red-400 text-xs">{deleteError}</p>
               )}
             </div>
           </div>

@@ -46,7 +46,7 @@ export default function StatsPage() {
   if (loading) {
     return (
       <main className="flex-1 flex items-center justify-center p-4">
-        <p className="text-neutral-500">Chargement des statistiques...</p>
+        <p className="text-slate-400">Chargement des statistiques...</p>
       </main>
     );
   }
@@ -65,10 +65,10 @@ export default function StatsPage() {
       <div className="w-full max-w-3xl">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-semibold tracking-tight text-neutral-900">Statistiques</h1>
+          <h1 className="text-3xl font-bold text-orange-400">Statistiques</h1>
           <Link
             href="/"
-            className="px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 text-sm font-medium transition-colors"
+            className="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 text-sm font-medium transition-colors"
           >
             Retour
           </Link>
@@ -77,25 +77,25 @@ export default function StatsPage() {
         {/* Global stats */}
         {totals && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-            <div className="bg-white rounded-2xl p-4 text-center shadow-sm border border-neutral-200">
-              <p className="text-2xl font-bold text-neutral-900">{totals.totalQuestions}</p>
-              <p className="text-neutral-500 text-xs mt-0.5">Questions</p>
+            <div className="bg-slate-800 rounded-2xl p-4 text-center">
+              <p className="text-2xl font-bold">{totals.totalQuestions}</p>
+              <p className="text-slate-400 text-xs mt-0.5">Questions</p>
             </div>
-            <div className="bg-white rounded-2xl p-4 text-center shadow-sm border border-neutral-200">
-              <p className="text-2xl font-bold text-neutral-900">{totals.totalAnswered}</p>
-              <p className="text-neutral-500 text-xs mt-0.5">Reponses</p>
+            <div className="bg-slate-800 rounded-2xl p-4 text-center">
+              <p className="text-2xl font-bold">{totals.totalAnswered}</p>
+              <p className="text-slate-400 text-xs mt-0.5">Reponses</p>
             </div>
-            <div className="bg-white rounded-2xl p-4 text-center shadow-sm border border-neutral-200">
-              <p className="text-2xl font-bold text-emerald-600">
+            <div className="bg-slate-800 rounded-2xl p-4 text-center">
+              <p className="text-2xl font-bold text-green-400">
                 {globalRate !== null ? `${globalRate}%` : "\u2014"}
               </p>
-              <p className="text-neutral-500 text-xs mt-0.5">Reussite</p>
+              <p className="text-slate-400 text-xs mt-0.5">Reussite</p>
             </div>
-            <div className="bg-white rounded-2xl p-4 text-center shadow-sm border border-neutral-200">
-              <p className="text-2xl font-bold text-blue-500">
+            <div className="bg-slate-800 rounded-2xl p-4 text-center">
+              <p className="text-2xl font-bold text-orange-400">
                 {globalCashRate !== null ? `${globalCashRate}%` : "\u2014"}
               </p>
-              <p className="text-neutral-500 text-xs mt-0.5">Cash</p>
+              <p className="text-slate-400 text-xs mt-0.5">Cash</p>
             </div>
           </div>
         )}
@@ -111,10 +111,10 @@ export default function StatsPage() {
             <button
               key={key}
               onClick={() => setSortBy(key)}
-              className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
                 sortBy === key
-                  ? "bg-neutral-900 text-white"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                  ? "bg-orange-600 text-white"
+                  : "bg-slate-700 text-slate-300 hover:bg-slate-600"
               }`}
             >
               {label}
@@ -125,14 +125,14 @@ export default function StatsPage() {
         {/* Questions list */}
         <div className="flex flex-col gap-2.5">
           {sorted.map((q) => (
-            <div key={q.id} className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-200">
-              <p className="font-medium mb-2 text-sm leading-relaxed text-neutral-800">
+            <div key={q.id} className="bg-slate-800 rounded-2xl p-4">
+              <p className="font-medium mb-2 text-sm leading-relaxed">
                 {q.question}
               </p>
-              <div className="flex gap-4 text-xs text-neutral-500">
+              <div className="flex gap-4 text-xs text-slate-400">
                 <span>
                   Repondue{" "}
-                  <span className="text-neutral-700 font-medium">{q.answered}x</span>
+                  <span className="text-slate-200 font-medium">{q.answered}x</span>
                 </span>
                 <span>
                   Reussite{" "}
@@ -140,11 +140,11 @@ export default function StatsPage() {
                     className={`font-medium ${
                       q.successRate !== null
                         ? q.successRate >= 70
-                          ? "text-emerald-600"
+                          ? "text-green-400"
                           : q.successRate >= 40
-                          ? "text-amber-500"
-                          : "text-red-500"
-                        : "text-neutral-400"
+                          ? "text-amber-400"
+                          : "text-red-400"
+                        : "text-slate-500"
                     }`}
                   >
                     {q.successRate !== null ? `${q.successRate}%` : "\u2014"}
@@ -152,15 +152,15 @@ export default function StatsPage() {
                 </span>
                 <span>
                   Cash{" "}
-                  <span className="text-blue-500 font-medium">
+                  <span className="text-orange-400 font-medium">
                     {q.cashGoodAnswer}/{q.answered || 0}
                   </span>
                 </span>
               </div>
               {q.answered > 0 && (
-                <div className="mt-2.5 h-1 bg-neutral-100 rounded-full overflow-hidden">
+                <div className="mt-2.5 h-1 bg-slate-700 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-emerald-500 rounded-full transition-all"
+                    className="h-full bg-green-500 rounded-full transition-all"
                     style={{ width: `${q.successRate ?? 0}%` }}
                   />
                 </div>

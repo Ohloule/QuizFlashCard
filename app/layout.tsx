@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quiz FlashCards",
-  description: "Application de quiz par flashcards",
+  title: "Potache",
+  description: "Potache - Application de quiz par flashcards",
+  icons: {
+    icon: [
+      { url: "/Logo/potache-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/Logo/potache-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: { url: "/Logo/potache-192.png", sizes: "192x192" },
+  },
 };
 
 export default function RootLayout({
@@ -27,7 +34,7 @@ export default function RootLayout({
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#f5f5f7]">{children}</body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
