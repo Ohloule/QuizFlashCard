@@ -36,3 +36,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.text-shine {
+  background: linear-gradient(
+    120deg,
+    var(--color-ds-accent-light) 0%,
+    var(--color-ds-accent-light) 35%,
+    #fff 50%,
+    var(--color-ds-accent-light) 65%,
+    var(--color-ds-accent-light) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 100% { background-position: 200% center; }
+  50% { background-position: -200% center; }
+}

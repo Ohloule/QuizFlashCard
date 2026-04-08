@@ -172,6 +172,8 @@ export default function Home() {
     const q = filteredQuestions[currentIndex];
     setCashChecking(true);
     setCashGivenAnswer(userAnswer);
+    setIsFlipped(true);
+    setDeleteError(null);
     try {
       const res = await fetch("/api/check-answer", {
         method: "POST",
@@ -185,8 +187,6 @@ export default function Home() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setSelectedAnswer(data.isCorrect ? q.answer : userAnswer);
-      setIsFlipped(true);
-      setDeleteError(null);
       trackAnswer(q.id, data.isCorrect, true);
       setScore((prev) => ({
         ...prev,
@@ -392,7 +392,7 @@ export default function Home() {
   const logoHeader = (
     <div className="flex items-center gap-3 mb-4">
       <Image src="/Logo/potache-192.png" alt="Potache" width={48} height={48} />
-      <h1 className="text-4xl font-bold text-ds-accent">Potache</h1>
+      <h1 className="text-4xl font-bold text-ds-accent font-(family-name:--font-henny-penny)">Potache</h1>
     </div>
   );
 
@@ -463,9 +463,9 @@ export default function Home() {
     <main className="flex-1 flex flex-col items-center justify-start py-8 px-4">
       {/* Header */}
       <div className="w-full max-w-2xl flex flex-col gap-4 mb-6">
-        <div className="flex items-center gap-2 justify-center">
-          <Image src="/Logo/potache.svg" alt="Potache" width={64} height={64} />
-          <span className="text-3xl font-bold text-ds-accent-light">Potache</span>
+        <div className="flex items-center gap-2 justify-center mt-8">
+          <Image src="/Logo/potache.svg" alt="Potache" width={96} height={96} />
+          <span className="text-6xl font-bold font-(family-name:--font-henny-penny) text-shine">Potache</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-foreground text-sm">
@@ -807,25 +807,33 @@ export default function Home() {
         ) : (
           /* Back */
           <div
-            className={`rounded-2xl p-8 flex flex-col ${
-              isCorrect
-                ? "bg-ds-success-dark/80 border-2 border-ds-success"
-                : "bg-ds-danger-dark/80 border-2 border-ds-danger"
+            className={`rounded-2xl p-8 flex flex-col transition-colors duration-300 ${
+              cashChecking
+                ? "bg-ds-dark border-2 border-ds-border"
+                : isCorrect
+                  ? "bg-ds-success-dark/80 border-2 border-ds-success"
+                  : "bg-ds-danger-dark/80 border-2 border-ds-danger"
             }`}
           >
-            <p
-              className={`text-2xl font-semibold mb-4 text-center ${
-                isCorrect ? "text-ds-success-light" : "text-ds-danger-light"
-              }`}
-            >
-              {isCorrect ? "Correct" : "Incorrect"}
-            </p>
-            {!isCorrect && cashGivenAnswer && (
-              <p className="text-base mb-2 text-center text-ds-danger-light">
+            {cashChecking ? (
+              <p className="text-2xl font-semibold mb-4 text-center text-ds-muted animate-pulse">
+                Verification...
+              </p>
+            ) : (
+              <p
+                className={`text-2xl font-semibold mb-4 text-center ${
+                  isCorrect ? "text-ds-success-light" : "text-ds-danger-light"
+                }`}
+              >
+                {isCorrect ? "Correct" : "Incorrect"}
+              </p>
+            )}
+            {cashGivenAnswer && (cashChecking || !isCorrect) && (
+              <p className={`text-base mb-2 text-center ${cashChecking ? "text-ds-text" : "text-ds-danger-light"}`}>
                 Ta reponse : <span className="font-semibold">{cashGivenAnswer}</span>
               </p>
             )}
-            {!isCorrect && (
+            {!cashChecking && !isCorrect && (
               <p className="text-lg mb-4 text-center">
                 Reponse :{" "}
                 <span className="font-semibold text-ds-success-light">
@@ -841,7 +849,8 @@ export default function Home() {
             <div className="flex flex-col items-center gap-3">
               <button
                 onClick={handleNext}
-                className="px-8 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-semibold transition-colors cursor-pointer"
+                disabled={cashChecking}
+                className="px-8 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-semibold transition-colors cursor-pointer disabled:opacity-30"
               >
                 {currentIndex < filteredQuestions.length - 1
                   ? "Suivante"
@@ -849,7 +858,7 @@ export default function Home() {
               </button>
               <button
                 onClick={handleDeleteQuestion}
-                disabled={deletingQuestion}
+                disabled={deletingQuestion || cashChecking}
                 className="text-ds-danger-light/70 hover:text-ds-danger-light text-sm transition-colors cursor-pointer disabled:opacity-50"
               >
                 {deletingQuestion ? "Suppression..." : "Supprimer"}
