@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Henny_Penny } from "next/font/google";
+import { Geist, Geist_Mono, Henny_Penny, Klee_One } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,6 +14,12 @@ const geistMono = Geist_Mono({
 
 const hennyPenny = Henny_Penny({
   variable: "--font-henny-penny",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const kleeOne = Klee_One({
+  variable: "--font-klee-one",
   weight: "400",
   subsets: ["latin"],
 });
@@ -38,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} ${hennyPenny.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${hennyPenny.variable} ${kleeOne.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
