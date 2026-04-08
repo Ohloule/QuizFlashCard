@@ -12,6 +12,18 @@ datasource db {
   provider = "postgresql"
 }
 
+model Theme {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  questions Question[]
+}
+
+model Source {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  questions Question[]
+}
+
 model Question {
   id              Int      @id @default(autoincrement())
   question        String
@@ -22,4 +34,8 @@ model Question {
   goodAnswer      Int      @default(0)
   cashGoodAnswer  Int      @default(0)
   createdAt       DateTime @default(now())
+  themeId         Int?
+  sourceId        Int?
+  theme           Theme?   @relation(fields: [themeId], references: [id])
+  source          Source?  @relation(fields: [sourceId], references: [id])
 }
